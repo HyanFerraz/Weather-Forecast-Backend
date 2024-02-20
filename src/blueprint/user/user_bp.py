@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, make_response
-from validators.user_validator import user_body_validator
 from errors.error_handler import error_handler
+from validators.user.user_validator import user_body_validator
 from controller.user_controller import UserController
 from drivers.jwt_auth import token_required
 

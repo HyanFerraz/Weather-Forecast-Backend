@@ -7,6 +7,6 @@ def user_body_validator(request) -> None:
         "password": { "type": "string", "required": True, "empty": False }
     })
 
-    response = body_validator.validate(request.json)
-    if response is False:
+    is_valid = body_validator.validate(request.json)
+    if is_valid is False:
         raise HttpUnprocessableEntityError(body_validator.errors)

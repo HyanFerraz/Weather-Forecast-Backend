@@ -1,7 +1,7 @@
 from dotenv import dotenv_values
 from functools import wraps
 from errors.error_handler import error_handler
-from flask import request
+from flask import request, make_response
 import jwt
 import datetime
 
@@ -20,10 +20,14 @@ def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         token = request.cookies.get("token")
-        if not token: 
-            return {
-                "message" : "token is missing"
+        if not token:
+            formated_response = {
+                "body" : {
+                    "message" : "token is missing"
+                },
+                "status_code" : 401
             }
+            return make_response(formated_response["body"], formated_response["status_code"])
         try:
             data = jwt.decode(token, config["JWT_KEY"])
         except Exception as exception:
