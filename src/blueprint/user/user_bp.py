@@ -1,7 +1,8 @@
 from flask import Blueprint, request, jsonify, make_response
 from errors.error_handler import error_handler
 from validators.user.user_validator import user_body_validator
-from controller.user_controller import UserController
+from controller.user.user_controller import UserController
+from controller.log.log_controller import LogController
 from drivers.jwt_auth import token_required
 
 user_bp = Blueprint("user", __name__, url_prefix="/user")
@@ -39,8 +40,9 @@ def login():
         response = make_response(formated_response["body"], formated_response["status_code"])
 
         if formated_response["status_code"] == 200:
-            token = formated_response["body"]["token"]
-            response.set_cookie("token", token)
+            login_info = formated_response["body"]
+            response.set_cookie("token", login_info["token"])
+            response.set_cookie("username", login_info["username"])
         
 
     except Exception as exception:
@@ -52,6 +54,9 @@ def login():
 @user_bp.get("/logout")
 @token_required
 def logout():
+    logger = LogController()
+    username = request.cookies.get("username")
+    logger.create_log(username, request.method, request.path)
     response = make_response({
         "message" : "User Logged out"
     })

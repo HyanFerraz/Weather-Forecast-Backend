@@ -8,12 +8,17 @@ import datetime
 config = dotenv_values(".env")
 
 def create_jwt_token(username: str) -> str:
-    return jwt.encode({
+    token = jwt.encode({
         "username": username,
         "exp" : datetime.datetime.now() + datetime.timedelta(minutes=1)
     },
     config["JWT_KEY"]
     )
+
+    return {
+        "username" : username,
+        "token" : token
+    }
 
 
 def token_required(f):

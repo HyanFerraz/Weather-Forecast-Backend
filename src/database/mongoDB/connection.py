@@ -1,11 +1,14 @@
 from pymongo import MongoClient
-from dotenv import dotenv_values
+from errors.error_handler import error_handler
+from drivers.dot_env_loader import get_dotenv_values
 
-config = dotenv_values(".env")
+config = get_dotenv_values()
 
-class Connection():
+class MongoConnection():
     def __init__(self):
-        self.client = MongoClient(config["DATABASE_URI"])
+        self.client = MongoClient(
+            f"mongodb://{config["MONGO_USER"]}:{config["MONGO_PASSWORD"]}@localhost:{config["MONGO_PORT"]}/"
+            )
 
     def connect(self):
         try:
