@@ -7,7 +7,7 @@ config = get_dotenv_values()
 class MongoConnection():
     def __init__(self):
         self.client = MongoClient(
-            f"mongodb://{config["MONGO_USER"]}:{config["MONGO_PASSWORD"]}@localhost:{config["MONGO_PORT"]}/"
+            f"mongodb://{config['MONGO_USER']}:{config['MONGO_PASSWORD']}@mongo_container:{config['MONGO_PORT']}/"
             )
 
     def connect(self):

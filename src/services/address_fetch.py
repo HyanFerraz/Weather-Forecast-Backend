@@ -8,7 +8,7 @@ class AddressFetch:
         address = self.__fetch_address(cep)
         
         decoded_address = decode_address_info(address)
-        link = f"http://servicos.cptec.inpe.br/XML/listaCidades?city={decoded_address["location"]}"
+        link = f"http://servicos.cptec.inpe.br/XML/listaCidades?city={decoded_address['location']}"
         response = fetch_api(link)
 
         cities = parse_xml(response.content)

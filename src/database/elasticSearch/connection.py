@@ -7,7 +7,7 @@ config = get_dotenv_values()
 def connect_to_elasticsearch():
     try:
         return Elasticsearch(
-            f"http://elastic:{config["ELASTIC_PASSWORD"]}@localhost:{config["ELASTIC_PORT"]}/"
+            f"http://elastic:{config['ELASTIC_PASSWORD']}@elasticsearch_container:{config['ELASTIC_PORT']}/"
         )
     except Exception as exception:
         response = error_handler(exception)
